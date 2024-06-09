@@ -2,11 +2,16 @@ const express = require('express');
 require('dotenv').config();
 const connectDB = require('./config/db');	// Import connectDB function
 const morgan = require('morgan');	// Import morgan
+const mongoose = require("mongoose") //import mongoose
+const userRoutes = require('./routes/userRoutes');
+
+
 
 const app = express();
 
 // Connect to database
-connectDB();	// Call connectDB function
+// Function to connect to DB
+connectDB()
 
 // Middleware
 app.use(express.json());	// Body parser
@@ -16,6 +21,11 @@ app.use(morgan('tiny'));	// Morgan
 app.get('/api', (req, res) => {
 	res.send('Hello World');
 });
+
+
+// Use routes
+app.use('/api/users', userRoutes);
+
 
 // Server static assets if in production
 const PORT = process.env.PORT || 3000;
