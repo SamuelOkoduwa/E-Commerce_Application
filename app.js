@@ -19,7 +19,7 @@ app.use(morgan('tiny'));	// Morgan
 
 // API routes
 app.get('/api', (req, res) => {
-	res.send('Hello World');
+	res.status(200).json({message:"Welcome to Our E-commerce platform"});
 });
 
 
