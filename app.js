@@ -4,10 +4,17 @@ const connectDB = require('./config/db');	// Import connectDB function
 const morgan = require('morgan');	// Import morgan
 const mongoose = require("mongoose") //import mongoose
 const userRoutes = require('./routes/userRoutes');
+const {router} = require('./routes/categories')
+const cors = require('cors');
 
 
 
+// Initialize express
 const app = express();
+
+// Enable CORS
+app.use(cors());
+app.options('*', cors());
 
 // Connect to database
 // Function to connect to DB
@@ -25,6 +32,8 @@ app.get('/api', (req, res) => {
 
 // Use routes
 app.use('/api/users', userRoutes);
+// app.use('/api/products', require('./routes/productRoutes'));
+// app.use('/api/categories', require('./routes/categoryRoutes'));
 
 
 // Server static assets if in production
