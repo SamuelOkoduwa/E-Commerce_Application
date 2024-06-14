@@ -4,7 +4,7 @@ const connectDB = require('./config/db');	// Import connectDB function
 const morgan = require('morgan');	// Import morgan
 const mongoose = require("mongoose") //import mongoose
 const userRoutes = require('./routes/userRoutes');
-
+const productRoutes = require('./routes/productRoutes');
 
 
 const app = express();
@@ -26,10 +26,14 @@ app.get('/api', (req, res) => {
 // Use routes
 app.use('/api/users', userRoutes);
 
+// productRoute
+app.use(express.json());
+app.use('/api/product', productRoutes);
 
 // Server static assets if in production
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
 });
+
 
