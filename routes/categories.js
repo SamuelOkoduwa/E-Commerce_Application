@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Category } = require('../models/Category');
 
+// get all categories
 router.get('/', async (req, res) => {
     const categoryList = await Category.find();
 
@@ -9,6 +10,20 @@ router.get('/', async (req, res) => {
         res.status(500).json({ success: false });
     }
     res.send(categoryList);
+});
+
+//get a single category
+router.get('/:id', async (req, res) => {
+    const category = await Category.findById(req.params.id);
+    try {
+        if (!category) {
+            return res.status(404).json({ success: false, message: 'Category not found!' });
+        }
+        res.send(category);
+    } catch (error) {
+        res.status(400).json({ success: false, error: error });
+    }
+    
 });
 
 router.post('/', async (req, res) => {
