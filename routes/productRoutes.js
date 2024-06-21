@@ -1,11 +1,29 @@
-const express = require('express');
-const router = express.Router();
-const productController = require('../controllers/productController'); // Adjust the path as needed
+const {
+    createProduct,
+    getAllProducts,
+    getSingleProduct,
+    updateProduct,
+    deleteSingleProduct
+} = require('../controllers/productController')
 
-router.post('/products', productController.createProduct);
-router.get('/products', productController.getAllProducts);
-router.get('/products/:id', productController.getProductById);
-router.put('/products/:id', productController.updateProductById);
-router.delete('/products/:id', productController.deleteProductById);
+const {
+    productAuth
+} = require('../middlewares/productAuth')
 
-module.exports = router;
+const express = require('express')
+
+const Router = express.Router()
+
+
+Router.post('/create-product', productAuth, createProduct)
+
+Router.get('/product/:id', getSingleProduct)
+
+Router.get('/products', getAllProducts)
+
+Router.patch('/edit-product/:id', updateProduct)
+
+Router.delete('/delete-product/:id', deleteSingleProduct)
+
+
+module.exports = Router;
