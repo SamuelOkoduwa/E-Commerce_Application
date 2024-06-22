@@ -72,4 +72,4 @@ router.put('/:id', async (req, res) => {
     res.send(category);
 });
 
-module.exports = { router };
+module.exports = router ;

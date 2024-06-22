@@ -8,6 +8,8 @@ const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const sendEmail = require('./utils/sendEmail.js');
 const cartRoutes = require('./routes/cartRoutes');
+const cors = require('cors')
+const categoryRoutes = require('./routes/categories.js')
 
 
 const app = express();
