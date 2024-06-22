@@ -33,9 +33,10 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+}, { timestamps: true});
 
 
+// Create an Order model from the schema
 const Order = mongoose.model('Order', orderSchema);
 
 module.exports = Order;

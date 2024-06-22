@@ -1,10 +1,15 @@
 // routes/authRoutes.js
 const express = require('express');
+<<<<<<< HEAD
+=======
+const { registerUser, verifyEmail, loginUser, forgotPassword, resetPassword } = require('../controllers/userController');
+>>>>>>> a2f6eb334a96fff7cc585dee2f094d01c40ce961
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+<<<<<<< HEAD
 // User Registration and Login
 router.post('/register', async (req, res) => {
   try {
@@ -50,5 +55,16 @@ router.post('/register', async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+=======
+router.post('/register', registerUser);
+
+router.get('/verifyemail/:token', verifyEmail);
+
+router.post('/login', loginUser);
+
+router.post('/forgotpassword', forgotPassword);
+
+router.put('/resetpassword/:token', resetPassword);
+>>>>>>> a2f6eb334a96fff7cc585dee2f094d01c40ce961
 
 module.exports = router;
