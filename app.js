@@ -26,7 +26,9 @@ app.use(express.json()); // Body parser
 app.use(morgan('tiny')); // Morgan
 
 // API routes
+console.log('Loading category routes');
 app.use('/api/categories', categoryRoutes);
+console.log('Category routes loaded')
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
