@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     if (!categoryList) {
         res.status(500).json({ success: false });
     }
-    res.send(categoryList);
+    return res.json({categoryList});
 });
 
 //get a single category
