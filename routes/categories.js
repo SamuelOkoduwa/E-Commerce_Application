@@ -2,74 +2,81 @@ const express = require('express');
 const router = express.Router();
 const { Category } = require('../models/Category');
 
-// get all categories
+// Get all categories
 router.get('/', async (req, res) => {
-    const categoryList = await Category.find();
-
-    if (!categoryList) {
-        res.status(500).json({ success: false });
+    try {
+        const categoryList = await Category.find();
+        res.status(200).json({ success: true, categoryList });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
-    return res.json({categoryList});
 });
 
-//get a single category
+// Get a single category
 router.get('/:id', async (req, res) => {
-    const category = await Category.findById(req.params.id);
     try {
+        const category = await Category.findById(req.params.id);
         if (!category) {
             return res.status(404).json({ success: false, message: 'Category not found!' });
         }
-        res.send(category);
+        res.status(200).json({ success: true, category });
     } catch (error) {
-        res.status(400).json({ success: false, error: error });
+        res.status(400).json({ success: false, error: error.message });
     }
-    
 });
 
+// Create a new category
 router.post('/', async (req, res) => {
-    // Create a new category
-    let category = new Category({
-        name: req.body.name,
-        icon: req.body.icon,
-        color: req.body.color,
-        description: req.body.description,
-    });
-    category = await category.save(); // Save the category to the database
+    try {
+        let category = new Category({
+            name: req.body.name,
+            icon: req.body.icon,
+            color: req.body.color,
+            description: req.body.description,
+        });
+        category = await category.save();
 
-    if (!category) {
-        return res.status(404).send('The category cannot be created!');
+        res.status(201).json({ success: true, category });
+    } catch (error) {
+        res.status(400).json({ success: false, message: 'The category cannot be created!', error: error.message });
     }
-    res.send(category);
 });
 
 // Delete a category
 router.delete('/:id', async (req, res) => {
-    const category = await Category.findByIdAndDelete(req.params.id)
-        .then(category => {
-            if (category) {
-                return res.status(200).json({ success: true, message: 'The category is deleted!' });
-            } else {
-                return res.status(404).json({ success: false, message: 'Category not found!' });
-            }
-        })
-        .catch(err => {
-            return res.status(400).json({ success: false, error: err });
-        });
+    try {
+        const category = await Category.findByIdAndDelete(req.params.id);
+        if (category) {
+            return res.status(200).json({ success: true, message: 'The category is deleted!' });
+        } else {
+            return res.status(404).json({ success: false, message: 'Category not found!' });
+        }
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+    }
 });
 
 // Modify a category
 router.put('/:id', async (req, res) => {
-    const category = await Category.findByIdAndUpdate(req.params.id, {
-        name: req.body.name,
-        icon: req.body.icon,
-        color: req.body.color,
-        description: req.body.description,
-    }, { new: true });
+    try {
+        const category = await Category.findByIdAndUpdate(
+            req.params.id,
+            {
+                name: req.body.name,
+                icon: req.body.icon,
+                color: req.body.color,
+                description: req.body.description,
+            },
+            { new: true }
+        );
 
-    if (!category) {
-        return res.status(400).send('The category cannot be updated!');
+        if (!category) {
+            return res.status(404).json({ success: false, message: 'The category cannot be updated!' });
+        }
+        res.status(200).json({ success: true, category });
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
     }
-    res.send(category);
 });
 
-module.exports = router ;
+module.exports = router;
